@@ -19,26 +19,25 @@ sidebar_position: 6
 
 ### Visual Studio Code 扩展
 
-Additionally, there's also some work done by
-[@paulvarache](https://github.com/paulvarache) in making an Visual Studio Code
-extension, which has its code [here](https://github.com/paulvarache/vscode-taskfile)
-and is published [here](https://marketplace.visualstudio.com/items?itemName=paulvarache.vscode-taskfile).
+另外，在开发 Visual Studio Code 扩展过程中，还有一些工作由 [@paulvarache](https://github.com/paulvarache) 完成，
+代码在 [这里](https://github.com/paulvarache/vscode-taskfile)
+并发布到了 [这里](https://marketplace.visualstudio.com/items?itemName=paulvarache.vscode-taskfile)。
 
-### Sublime Text 4 package
+### Sublime Text 4 包
 
-There is a convenience wrapper for initializing and running tasks from Sublime Text's command palette. The package is
-developed by [@biozz](https://github.com/biozz), the source code is available [here](https://github.com/biozz/sublime-taskfile)
-and it is published on Package Control [here](https://packagecontrol.io/packages/Taskfile).
+通过 Sublime Text 的命令面板有一个简便的安装运行方法。这个包是由 [@biozz](https://github.com/biozz) 开发的，
+源代码在 [这里](https://github.com/biozz/sublime-taskfile)
+并且发布到了包管理 [这里](https://packagecontrol.io/packages/Taskfile)。
 
-### IntelliJ plugin
+### IntelliJ 插件
 
-There's a JetBrains IntelliJ plugin done by
-[@lechuckroh](https://github.com/lechuckroh), which has its code [here](https://github.com/lechuckroh/task-intellij-plugin)
-and is published [here](https://plugins.jetbrains.com/plugin/17058-taskfile).
+JetBrains IntelliJ 插件是由 [@lechuckroh](https://github.com/lechuckroh) 完成的，
+代码在 [这里](https://github.com/lechuckroh/task-intellij-plugin)
+并且发布到了 [这里](https://plugins.jetbrains.com/plugin/17058-taskfile)。
 
-## Installation methods
+## 安装方法
 
-Some installation methods are maintained by third party:
+有些安装方式是通过第三方维护的：
 
 - [GitHub Actions](https://github.com/arduino/setup-task)
   by [@arduino](https://github.com/arduino)
@@ -48,7 +47,7 @@ Some installation methods are maintained by third party:
 - [Fedora](https://packages.fedoraproject.org/pkgs/golang-github-task/go-task/)
 - [NixOS](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/go-task/default.nix)
 
-## 
+## 更多
 
 同时，谢谢所有 [代码贡献者](https://github.com/go-task/task/graphs/contributors)，
 [资金贡献者](https://opencollective.com/task)，以及
