@@ -35,8 +35,7 @@ Taskfile.yml
 
 ## 缩进用 2 个空格
 
-This is the most common convention for YAML files, and Task follows it.
-
+这是最常用的 YAML 风格，Task 也这样建议。
 
 ```yaml
 # bad
@@ -53,7 +52,7 @@ tasks:
       - echo 'foo'
 ```
 
-## Separate with spaces the mains sections
+## 用空行分隔不同模块
 
 ```yaml
 # bad
@@ -87,7 +86,7 @@ tasks:
   # ...
 ```
 
-## Add spaces between tasks
+## 用空行分隔不同任务
 
 ```yaml
 # bad
@@ -122,7 +121,7 @@ tasks:
       - echo 'baz'
 ```
 
-## Use upper-case variable names
+## 用大写字母命名变量
 
 ```yaml
 # bad
@@ -149,7 +148,7 @@ tasks:
       - go build -o {{.BINARY_NAME}} .
 ```
 
-## Don't wrap vars in spaces when templating
+## 使用变量名字时括号内不加空格
 
 ```yaml
 # bad
@@ -170,9 +169,9 @@ tasks:
       - echo '{{.MESSAGE}}'
 ```
 
-This convention is also used by most people for any Go templating.
+这种习惯是大多数人在 Go 模板中使用的。
 
-## Separate task name words with a dash
+## 用横线分隔任务名字中的单词
 
 ```yaml
 # bad
