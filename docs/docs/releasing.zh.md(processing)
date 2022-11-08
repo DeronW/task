@@ -1,0 +1,54 @@
+---
+slug: /releasing/
+sidebar_position: 8
+---
+
+# 发布
+
+Task 的发布流程是在 [GoReleaser][goreleaser] 的帮助下完成的。本地调用 Taskfile 的 `test-release` 任务可以测试发布流程。
+
+[GitHub Actions](https://github.com/go-task/task/actions) 会在新 tag 推送到 master 分支的时候，自动发布产出物（原生的 DEB 和 RPM 包）。
+
+从 v3.15.0 开始，本地切换到特殊 tag 时，会重新编译和校验原生的可执行文件，并调用 `goreleaser build`，
+使用的 Go 版本是上面 Github Actions 中指定的版本。
+
+# Homebrew
+
+Goreleaser 会自动推送一个新的提交到 [Homebrew tap][homebrewtap] 仓库的 [Formula/go-task.rb][gotaskrb] 文件，以此完成新版本的发布。
+
+# npm
+
+发布 npm 新版本，需要更新 [`package.json`][packagejson] 文件中的 version，然后执行 `task npm:publish` 来进行发布。
+
+# Snapcraft
+
+The [snap package][snappackage] requires to manual steps to release a new
+version:
+[snap package][snappackage] 需要手动
+version:
+
+* Updating the current version on [snapcraft.yaml][snapcraftyaml].
+* Moving both `amd64`, `armhf` and `arm64` new artifacts to the stable channel on
+the [Snapcraft dashboard][snapcraftdashboard].
+
+# Scoop
+
+Scoop is a command-line package manager for the Windows operating system.
+Scoop package manifests are maintained by the community.
+Scoop owners usually take care of updating versions there by editing [this file](https://github.com/lukesampson/scoop-extras/blob/master/bucket/task.json).
+If you think its Task version is outdated, open an issue to let us know.
+
+# Nix
+
+Nix is a community owned installation method. Nix package maintainers usually take care
+of updating versions there by editing
+[this file](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/development/tools/go-task/default.nix).
+If you think its Task version is outdated, open an issue to let us know.
+
+[goreleaser]: https://goreleaser.com/
+[homebrewtap]: https://github.com/go-task/homebrew-tap
+[gotaskrb]: https://github.com/go-task/homebrew-tap/blob/master/Formula/go-task.rb
+[packagejson]: https://github.com/go-task/task/blob/master/package.json#L3
+[snappackage]: https://github.com/go-task/snap
+[snapcraftyaml]: https://github.com/go-task/snap/blob/master/snap/snapcraft.yaml#L2
+[snapcraftdashboard]: https://snapcraft.io/task/releases
