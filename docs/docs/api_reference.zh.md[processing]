@@ -7,33 +7,34 @@ sidebar_position: 4
 
 ## CLI
 
-Task command line tool has the following syntax:
+Task 命令行工具的语法如下:
 
 ```bash
 task [--flags] [tasks...] [-- CLI_ARGS...]
 ```
 
-:::tip
+:::提示
 
 If `--` is given, all remaning arguments will be assigned to a special `CLI_ARGS`
 variable
+如果使用了 `--`，剩下的参数都会被传给内置的 `CLI_ARGS` 变量
 
 :::
 
-| Short | Flag | Type | Default | Description |
+| 缩写 | 标记 | 类型 | 默认 | 说明 |
 | - | - | - | - | - |
-| `-c` | `--color` | `bool` | `true` | Colored output. Enabled by default. Set flag to `false` or use `NO_COLOR=1` to disable. |
-| `-C` | `--concurrency` | `int` | `0` | Limit number tasks to run concurrently. Zero means unlimited. |
-| `-d` | `--dir` | `string` | Working directory | Sets directory of execution. |
-| `-n` | `--dry` | `bool` | `false` | Compiles and prints tasks in the order that they would be run, without executing them. |
-| `-x` | `--exit-code` | `bool` | `false` | Pass-through the exit code of the task command. |
-| `-f` | `--force` | `bool` | `false` | Forces execution even when the task is up-to-date. |
-| `-h` | `--help` | `bool` | `false` | Shows Task usage. |
-| `-i` | `--init` | `bool` | `false` | Creates a new Taskfile.yaml in the current folder. |
-| `-I` | `--interval` | `string` | `5s` | Sets a different watch interval when using `--watch`, the default being 5 seconds. This string should be a valid [Go Duration](https://pkg.go.dev/time#ParseDuration). |
-| `-l` | `--list` | `bool` | `false` | Lists tasks with description of current Taskfile. |
-| `-a` | `--list-all` | `bool` | `false` | Lists tasks with or without a description. |
-| `-o` | `--output` | `string` | Default set in the Taskfile or `intervealed` | Sets output style: [`interleaved`/`group`/`prefixed`]. |
+| `-c` | `--color` | `bool` | `true` | 彩色输出，默认开启。设置为 false 或使用 `NO_COLOR=1` 禁用 |
+| `-C` | `--concurrency` | `int` | `0` | 限制并行任务的数量，0 表示不限制 |
+| `-d` | `--dir` | `string` | Working directory | 设置执行目录 |
+| `-n` | `--dry` | `bool` | `false` | 编译并按顺序输出任务，但不真的执行 |
+| `-x` | `--exit-code` | `bool` | `false` |  透传task 命令的结束状态码 |
+| `-f` | `--force` | `bool` | `false` | 强制执行，及时任务已经更新到最新状态 |
+| `-h` | `--help` | `bool` | `false` | 显示 Task 的帮助信息 |
+| `-i` | `--init` | `bool` | `false` | 在当前目录创建新的 Taskfile.yaml 文件 |
+| `-I` | `--interval` | `string` | `5s` | 设置 `--watch` 模式下的监控时间，默认 5 秒，参数必须符合 [Go Duration](https://pkg.go.dev/time#ParseDuration) |
+| `-l` | `--list` | `bool` | `false` | 列出当前文件的全部任务及对应描述 |
+| `-a` | `--list-all` | `bool` | `false` | 列出全部任务，可选是否显示描述 |
+| `-o` | `--output` | `string` | Default set in the Taskfile or `intervealed` | 设置输出风格: [`interleaved`/`group`/`prefixed`]. |
 |      | `--output-group-begin` | `string` | | Message template to print before a task's grouped output. |
 |      | `--output-group-end` | `string` | | Message template to print after a task's grouped output. |
 | `-p` | `--parallel` | `bool` | `false` | Executes tasks provided on command line in parallel. |
@@ -43,7 +44,7 @@ variable
 | `-t` | `--taskfile` | `string` | `Taskfile.yml` or `Taskfile.yaml` | |
 | `-v` | `--verbose` | `bool` | `false` | Enables verbose mode. |
 |      | `--version` | `bool` | `false` | Show Task version. |
-| `-w` | `--watch` | `bool` | `false` | Enables watch of the given task. |
+| `-w` | `--watch` | `bool` | `false` |  Enables watch of the given task. |
 
 ## Special Variables
 
