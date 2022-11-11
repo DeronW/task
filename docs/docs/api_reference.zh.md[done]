@@ -223,16 +223,14 @@ vars:
 
 ### Precondition
 
-| Attribute | Type | Default | Description |
+| 属性 | 类型 | 默认 | 描述 |
 | - | - | - | - |
-| `sh` | `string` | | Command to be executed. If a non-zero exit code is returned, the task errors without executing its commands. |
-| `msg` | `string` | | Optional message to print if the precondition isn't met. |
+| `sh` | `string` | | 要执行的命令，如果返回非 0 状态码，task 停止执行并返回错误 |
+| `msg` | `string` | | 可选提示，条件不满足时显示 |
 
 :::提示
 
-If you don't want to set a different message, you can declare a precondition
-like this and the value will be assigned to `sh`:
-如果你不想
+不设置错误消息时，可以直接设置 precondition 值，省略 `sh`:
 
 ```yaml
 tasks:
