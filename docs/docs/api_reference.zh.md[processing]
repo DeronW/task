@@ -35,77 +35,77 @@ variable
 | `-l` | `--list` | `bool` | `false` | 列出当前文件的全部任务及对应描述 |
 | `-a` | `--list-all` | `bool` | `false` | 列出全部任务，可选是否显示描述 |
 | `-o` | `--output` | `string` | Default set in the Taskfile or `intervealed` | 设置输出风格: [`interleaved`/`group`/`prefixed`]. |
-|      | `--output-group-begin` | `string` | | Message template to print before a task's grouped output. |
-|      | `--output-group-end` | `string` | | Message template to print after a task's grouped output. |
-| `-p` | `--parallel` | `bool` | `false` | Executes tasks provided on command line in parallel. |
-| `-s` | `--silent` | `bool` | `false` | Disables echoing. |
-|      | `--status` | `bool` | `false` | Exits with non-zero exit code if any of the given tasks is not up-to-date. |
-|      | `--summary` | `bool` | `false` | Show summary about a task. |
-| `-t` | `--taskfile` | `string` | `Taskfile.yml` or `Taskfile.yaml` | |
-| `-v` | `--verbose` | `bool` | `false` | Enables verbose mode. |
-|      | `--version` | `bool` | `false` | Show Task version. |
-| `-w` | `--watch` | `bool` | `false` |  Enables watch of the given task. |
+|      | `--output-group-begin` | `string` | | 输出到任务组之前的消息模板 |
+|      | `--output-group-end` | `string` | | 输出到任务组之后的消息模板 |
+| `-p` | `--parallel` | `bool` | `false` | 并发执行任务 |
+| `-s` | `--silent` | `bool` | `false` | 禁止输出 |
+|      | `--status` | `bool` | `false` | 如果有任务未更新，会返回非 0 状态码 |
+|      | `--summary` | `bool` | `false` | 显示任务摘要信息 |
+| `-t` | `--taskfile` | `string` | `Taskfile.yml` 或 `Taskfile.yaml` | |
+| `-v` | `--verbose` | `bool` | `false` | 输出详情 |
+|      | `--version` | `bool` | `false` | 显示版本号 |
+| `-w` | `--watch` | `bool` | `false` |  开启任务监控 |
 
-## Special Variables
+## 特殊变量
 
-There are some special variables that is available on the templating system:
+系统模板中可以使用一些特殊变量:
 
-| Var | Description |
+| 变量名 | 描述 |
 | - | - |
-| `CLI_ARGS` | Contain all extra arguments passed after `--` when calling Task through the CLI. |
-| `TASK` | The name of the current task. |
-| `ROOT_DIR` | The absolute path of the root Taskfile. |
-| `TASKFILE_DIR` | The absolute path of the included Taskfile. |
-| `CHECKSUM` | The checksum of the files listed in `sources`. Only available within the `status` prop and if method is set to `checksum`. |
+| `CLI_ARGS` | 外部输入参数，在命令行中 `--` 之后的所有内容 |
+| `TASK` | 当前任务名称 |
+| `ROOT_DIR` | 根 Taskfile 目录的绝对路径 |
+| `TASKFILE_DIR` | 引用 Taskfile 目录的绝对路径 |
+| `CHECKSUM` |  The checksum of the files listed in `sources`. Only available within the `status` prop and if method is set to `checksum`. |
 | `TIMESTAMP` | The date object of the greatest timestamp of the files listes in `sources`. Only available within the `status` prop and if method is set to `timestamp`. |
 
-## ENV
+## 环境变量
 
-Some environment variables can be overriden to adjust Task behavior.
+设置环境变量可以调整 Task 的默认行为。
 
-| ENV | Default | Description |
+| 变量 | 默认 | 描述 |
 | - | - | - |
-| `TASK_TEMP_DIR` | `.task` | Location of the temp dir. Can relative to the project like `tmp/task` or absolute like `/tmp/.task` or `~/.task`. |
-| `TASK_COLOR_RESET` | `0` | Color used for white. |
-| `TASK_COLOR_BLUE` | `34` | Color used for blue. |
-| `TASK_COLOR_GREEN` | `32` | Color used for green. |
-| `TASK_COLOR_CYAN` | `36` | Color used for cyan. |
-| `TASK_COLOR_YELLOW` | `33` | Color used for yellow. |
-| `TASK_COLOR_MAGENTA` | `35` | Color used for magenta. |
-| `TASK_COLOR_RED` | `31` | Color used for red. |
+| `TASK_TEMP_DIR` | `.task` | 临时目录，可以是相对路径也可以是绝对路径 |
+| `TASK_COLOR_RESET` | `0` | 白色色值 |
+| `TASK_COLOR_BLUE` | `34` | 蓝色色值 |
+| `TASK_COLOR_GREEN` | `32` | 绿色色值 |
+| `TASK_COLOR_CYAN` | `36` | 青色色值 |
+| `TASK_COLOR_YELLOW` | `33` | 黄色色值 |
+| `TASK_COLOR_MAGENTA` | `35` | 洋红色色值 |
+| `TASK_COLOR_RED` | `31` | 红色色值 |
 
 ## Schema
 
 ### Taskfile
 
-| Attribute | Type | Default | Description |
+| 属性 | 类型 | 默认 | 描述 |
 | - | - | - | - |
-| `version` | `string` | | Version of the Taskfile. The current version is `3`. |
-| `output` | `string` | `interleaved` | Output mode. Available options: `interleaved`, `group` and `prefixed`. |
-| `method` | `string` | `checksum` | Default method in this Taskfile. Can be overriden in a task by task basis. Available options: `checksum`, `timestamp` and `none`. |
-| `includes` | [`map[string]Include`](#include) | | Additional Taskfiles to be included. |
-| `vars` | [`map[string]Variable`](#variable) | | A set of global variables. |
-| `env` | [`map[string]Variable`](#variable) | | A set of global environment variables. |
-| `tasks` | [`map[string]Task`](#task) | | A set of task definitions. |
-| `silent` | `bool` | `false` | Default 'silent' options for this Taskfile. If `false`, can be overidden with `true` in a task by task basis. |
-| `dotenv` | `[]string` | | A list of `.env` file paths to be parsed. |
-| `run` | `string` | `always` | Default 'run' option for this Taskfile. Available options: `always`, `once` and `when_changed`. |
-| `interval` | `string` | `5s` | Sets a different watch interval when using `--watch`, the default being 5 seconds. This string should be a valid [Go Duration](https://pkg.go.dev/time#ParseDuration). |
+| `version` | `string` | | Taskfile 版本号，当前版本是 `3` |
+| `output` | `string` | `interleaved` | 输出模式，支持: `interleaved`, `group` 和 `prefixed`. |
+| `method` | `string` | `checksum` | Taskfile 默认方法，可以覆盖的任务基础属性，支持：`checksum`, `timestamp` 和 `none`. |
+| `includes` | [`map[string]Include`](#include) | | 额外引入的 Taskfile |
+| `vars` | [`map[string]Variable`](#variable) | | 一组全局变量 |
+| `env` | [`map[string]Variable`](#variable) | | 一组全局环境变量 |
+| `tasks` | [`map[string]Task`](#task) | | 一组任务定义 |
+| `silent` | `bool` | `false` | 全部任务的默认 'silent' 选项，如果是 `false`, 那么可以在任务自己的基础属性中进行覆盖设置 |
+| `dotenv` | `[]string` | | 将被解析的 `.env` 文件列表 |
+| `run` | `string` | `always` | Taskfile 中默认的 `run` 设置。支持: `always`, `once` 和 `when_changed` |
+| `interval` | `string` | `5s` | 使用 `--watch` 时设置不同的间隔时间, 默认 5 秒。这个字符串需要符合 [Go Duration](https://pkg.go.dev/time#ParseDuration). |
 
 ### Include
 
-| Attribute | Type | Default | Description |
+| 属性 | 类型 | 默认 | 描述 |
 | - | - | - | - |
-| `taskfile` | `string` | | The path for the Taskfile or directory to be included. If a directory, Task will look for files named `Taskfile.yml` or `Taskfile.yaml` inside that directory. If a relative path, resolved relative to the directory containing the including Taskfile. |
-| `dir` | `string` | The parent Taskfile directory | The working directory of the included tasks when run. |
-| `optional` | `bool` | `false` | If `true`, no errors will be thrown if the specified file does not exist. |
-| `internal` | `bool` | `false` | Stops any task in the included Taskfile from being callable on the command line. These commands will also be omitted from the output when used with `--list`. |
-| `aliases` | `[]string` | | Alternative names for the namespace of the included Taskfile. |
-| `vars` | `map[string]Variable` | | A set of variables to apply to the included Taskfile. |
+| `taskfile` | `string` | | 被引用文件的路径或目录。如果是目录，Task 会查找叫 `Taskfile.yml` 或 `Taskfile.yaml` 文件。如果是相对路径，就会解析相对路径中的 Taskfile |
+| `dir` | `string` | The parent Taskfile directory | 被引用文件执行时的工作目录 |
+| `optional` | `bool` | `false` | 设置为 `true` 时, 文件不存在也不会报错 |
+| `internal` | `bool` | `false` | 禁止通过命令行调用被引用文件中的任务。这些任务在使用 `--list` 时也会显示出来 |
+| `aliases` | `[]string` | | 设置被引用文件的命名空间别名 |
+| `vars` | `map[string]Variable` | | 一组给被引用文件设置的变量 |
 
-:::info
+:::提示
 
-Informing only a string like below is equivalent to setting that value to the `taskfile` attribute.
+直接赋值一个字符串，与将字符串赋值给 `taskfile` 属性的作用是相同的。
 
 ```yaml
 includes:
@@ -116,33 +116,32 @@ includes:
 
 ### Task
 
-| Attribute | Type | Default | Description |
+| 属性 | 类型 | 默认 | 描述 |
 | - | - | - | - |
-| `cmds` | [`[]Command`](#command) | | A list of shell commands to be executed. |
-| `deps` | [`[]Dependency`](#dependency) | | A list of dependencies of this task. Tasks defined here will run in parallel before this task. |
-| `label` | `string` | | Overrides the name of the task in the output when a task is run. Supports variables. |
-| `desc` | `string` | | A short description of the task. This is displayed when calling `task --list`. |
-| `summary` | `string` | | A longer description of the task. This is displayed when calling `task --summary [task]`. |
-| `aliases` | `[]string` | | A list of alternative names by which the task can be called. |
-| `sources` | `[]string` | | A list of sources to check before running this task. Relevant for `checksum` and `timestamp` methods. Can be file paths or star globs. |
-| `generates` | `[]string` | | A list of files meant to be generated by this task. Relevant for `timestamp` method. Can be file paths or star globs. |
-| `status` | `[]string` | | A list of commands to check if this task should run. The task is skipped otherwise. This overrides `method`, `sources` and `generates`. |
-| `preconditions` | [`[]Precondition`](#precondition) | | A list of commands to check if this task should run. If a condition is not met, the task will error. |
-| `dir` | `string` | | The directory in which this task should run. Defaults to the current working directory. |
-| `vars` | [`map[string]Variable`](#variable) | | A set of variables that can be used in the task. |
-| `env` | [`map[string]Variable`](#variable) | | A set of environment variables that will be made available to shell commands. |
-| `silent` | `bool` | `false` | Hides task name and command from output. The command's output will still be redirected to `STDOUT` and `STDERR`. When combined with the `--list` flag, task descriptions will be hidden. |
-| `interactive` | `bool` | `false` | Tells task that the command is interactive. |
-| `internal` | `bool` | `false` | Stops a task from being callable on the command line. It will also be omitted from the output when used with `--list`. |
-| `method` | `string` | `checksum` | Defines which method is used to check the task is up-to-date. `timestamp` will compare the timestamp of the sources and generates files. `checksum` will check the checksum (You probably want to ignore the .task folder in your .gitignore file). `none` skips any validation and always run the task. |
-| `prefix` | `string` | | Defines a string to prefix the output of tasks running in parallel. Only used when the output mode is `prefixed`. |
-| `ignore_error` | `bool` | `false` | Continue execution if errors happen while executing commands. |
-| `run` | `string` | The one declared globally in the Taskfile or `always` | Specifies whether the task should run again or not if called more than once. Available options: `always`, `once` and `when_changed`. |
+| `cmds` | [`[]Command`](#command) | | 可以执行的命令列表 |
+| `deps` | [`[]Dependency`](#dependency) | | 依赖任务，在当前任务执行前会并行执行这些依赖任务 |
+| `label` | `string` | | 覆盖输出的任务名字，可以使用变量 |
+| `desc` | `string` | | 任务简述，当使用 `task --list` 时显示 |
+| `summary` | `string` | | 任务详述，调用 `task --summary [task]` 时显示 |
+| `aliases` | `[]string` | | 可以调用任务的别名列表 |
+| `sources` | `[]string` | | 执行任务前的资源检查列表，与 `checksum` 和 `timestamp` 方法相关，可以是文件路径或星号 |
+| `generates` | `[]string` | | 通过任务生成的文件列表。与 `timestamp` 方法相关。可以是文件路径或星号 |
+| `status` | `[]string` | | 检查是否应当执行当前任务的命令列表，结果可能导致跳过当前任务。这个方法会覆盖 `method`, `sources` 和 `generates` |
+| `preconditions` | [`[]Precondition`](#precondition) | | 检查当前任务的依赖条件列表，如果条件不满足，任务报错 |
+| `dir` | `string` | | 任务的执行目录，默认是当前工作目录 |
+| `vars` | [`map[string]Variable`](#variable) | | 一组可以在任务内使用的变量 |
+| `env` | [`map[string]Variable`](#variable) | | 一组可以在任务的命令中适用的环境变量 |
+| `silent` | `bool` | `false` | 隐藏任务名字和执行日志，执行命令的输出依然会输出到 `STDOUT` 和 `STDERR`。与 `--list` 标记一同使用时，会隐藏任务的详述 |
+| `interactive` | `bool` | `false` | 标记 task 中的命令是有交互 |
+| `internal` | `bool` | `false` | 禁止命令行调用当前任务，但会显示在 `--list` 的输出列表中 |
+| `method` | `string` | `checksum` | 定义如何检查任务是否更新，`timestamp` 会对比源文件和生成文件的时间戳，`checksum` 会检查 checksum (你可能需要在 .gitignore 中忽略 .task 目录)。 `none` 会跳过检查直接执行 task。 |
+| `prefix` | `string` | | 定义 task 的输出前缀。只在输出模式为 `prefixed` 的时候生效 |
+| `ignore_error` | `bool` | `false` | 执行命令的时候忽略错误，继续执行 |
+| `run` | `string` | The one declared globally in the Taskfile or `always` | 定义 task 是否应该被执行多次，支持：`always`, `once` 和 `when_changed` |
 
-:::info
+:::提示
 
-These alternative syntaxes are available. They will set the given values to
-`cmds` and everything else will be set to their default values:
+以下语法也有效，定义内容会被设置给 `cmds` ，其它属性会使用默认值:
 
 ```yaml
 tasks:
@@ -160,15 +159,14 @@ tasks:
 
 ### Dependency
 
-| Attribute | Type | Default | Description |
+| 属性 | 类型 | 默认 | 描述 |
 | - | - | - | - |
-| `task` | `string` | | The task to be execute as a dependency. |
-| `vars` | [`map[string]Variable`](#variable) | | Optional additional variables to be passed to this task. |
+| `task` | `string` | | 作为原来执行的 task |
+| `vars` | [`map[string]Variable`](#variable) | | 可选变量，会传递给 task |
 
-:::tip
+:::提示
 
-If you don't want to set additional variables, it's enough to declare the
-dependency as a list of strings (they will be assigned to `task`):
+如果不需要设置变量，可以只声明一个数组（会被赋值给 `task`）:
 
 ```yaml
 tasks:
@@ -180,18 +178,18 @@ tasks:
 
 ### Command
 
-| Attribute | Type | Default | Description |
+| 属性 | 类型 | 默认 | 描述 |
 | - | - | - | - |
-| `cmd` | `string` | | The shell command to be executed. |
-| `silent` | `bool` | `false` | Skips some output for this command. Note that STDOUT and STDERR of the commands will still be redirected. |
-| `task` | `string` | | Set this to trigger execution of another task instead of running a command. This cannot be set together with `cmd`. |
-| `vars` | [`map[string]Variable`](#variable) | | Optional additional variables to be passed to the referenced task. Only relevant when setting `task` instead of `cmd`. |
-| `ignore_error` | `bool` | `false` | Continue execution if errors happen while executing the command. |
-| `defer` | `string` | | Alternative to `cmd`, but schedules the command to be executed at the end of this task instead of immediately. This cannot be used together with `cmd`. |
+| `cmd` | `string` | | 要执行的 shell 命令 |
+| `silent` | `bool` | `false` | 忽略部分日志输出，注意，日志依然会向 STDOUT 和 SDTERR 输出 |
+| `task` | `string` | | 执行另一个 task，而不执行命令。不能与 `cmd` 同时设置 |
+| `vars` | [`map[string]Variable`](#variable) | | 调用其它 task 时，可以传递变量，只能与 `task` 一起使用 |
+| `ignore_error` | `bool` | `false` | 执行命令的时候忽略错误，继续执行 |
+| `defer` | `string` | | 同 `cmd`, 但不立即执行，而延迟到 task 的最后执行。不能与 `cmd` 一同使用 |
 
-:::info
+:::提示
 
-If given as a a string, the value will be assigned to `cmd`:
+如果配置了一个字符串，则直传递给 `cmd`:
 
 ```yaml
 tasks:
@@ -205,14 +203,14 @@ tasks:
 
 ### Variable
 
-| Attribute | Type | Default | Description |
+| 属性 | 类型 | 默认 | 描述 |
 | - | - | - | - |
-| *itself* | `string` | | A static value that will be set to the variable. |
-| `sh` | `string` | | A shell command. The output (`STDOUT`) will be assigned to the variable. |
+| *itself* | `string` | | 变量的静态值 |
+| `sh` | `string` | | shell 命令，输出 (`STDOUT`) 值传递给变量 |
 
-:::info
+:::提示
 
-Static and dynamic variables have different syntaxes, like below:
+静态和动态变量语法不同，如下：
 
 ```yaml
 vars:
@@ -230,10 +228,11 @@ vars:
 | `sh` | `string` | | Command to be executed. If a non-zero exit code is returned, the task errors without executing its commands. |
 | `msg` | `string` | | Optional message to print if the precondition isn't met. |
 
-:::tip
+:::提示
 
 If you don't want to set a different message, you can declare a precondition
 like this and the value will be assigned to `sh`:
+如果你不想
 
 ```yaml
 tasks:
