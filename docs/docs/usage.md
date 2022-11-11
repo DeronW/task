@@ -3,14 +3,12 @@ slug: /usage/
 sidebar_position: 3
 ---
 
-# Usage
+# 用法
 
-## Getting started
+## 开始
 
-Create a file called `Taskfile.yml` in the root of your project.
-The `cmds` attribute should contain the commands of a task.
-The example below allows compiling a Go app and uses [Minify][minify] to concat
-and minify multiple CSS files into a single one.
+在项目根目录创建 `Taskfile.yml` 文件。`cmds` 属性应当包含 task 要执行的命令。
+下面的例子定义了一个 Go 应用和一个用 [Minify][minify] 压缩合并 CSS 应用。
 
 ```yaml
 version: '3'
@@ -25,38 +23,33 @@ tasks:
       - minify -o public/style.css src/css
 ```
 
-Running the tasks is as simple as running:
+执行 task 也很简单:
 
 ```bash
 task assets build
 ```
 
-Task uses [mvdan.cc/sh](https://mvdan.cc/sh/), a native Go sh
-interpreter. So you can write sh/bash commands, and it will work even on
-Windows, where `sh` or `bash` are usually not available. Just remember any
-executable called must be available by the OS or in PATH.
+Task 采用了 [mvdan.cc/sh](https://mvdan.cc/sh/) ，一个 Go 的 sh 编译器。所以你的 sh/bash 命令甚至能用到 windows 上。
+但要注意使用的命令需要操作系统支持。
 
-If you omit a task name, "default" will be assumed.
+如果省略了 task 的名字，默认会用 "default"。
 
-## Supported file names
+## 配置文件名称
 
-Task will look for the following file names, in order of priority:
+Task 会按顺序寻找配置文件:
 
 - Taskfile.yml
 - Taskfile.yaml
 - Taskfile.dist.yml
 - Taskfile.dist.yaml
 
-The intention of having the `.dist` variants is to allow projects to have one
-committed version (`.dist`) while still allowing individual users to override
-the Taskfile by adding an additional `Taskfile.yml` (which would be on
-`.gitignore`).
+使用 `.dist` 扩展文件是为了提交一个生公共版本（`.dist`）同时允许每个开发者使用自定义的 `Taskfile.yml` 文件进行覆盖（这个文件应该在`.gitignore`中标记忽略）
 
-## Environment variables
+## 环境变量 Environment variables
 
 ### Task
 
-You can use `env` to set custom environment variables for a specific task:
+你可以使用 `env` 给每个 task 设置自定义环境变量:
 
 ```yaml
 version: '3'
@@ -69,8 +62,7 @@ tasks:
       GREETING: Hey, there!
 ```
 
-Additionally, you can set global environment variables that will be available
-to all tasks:
+另外，设置的全局环境变量可以在所有 task 中使用:
 
 ```yaml
 version: '3'
@@ -84,17 +76,13 @@ tasks:
       - echo $GREETING
 ```
 
-:::info
+:::说明
 
-`env` supports expansion and retrieving output from a shell command
-just like variables, as you can see in the [Variables](#variables) section.
+`env` 还能扩展到使用 shell 命令的结果，就像变量那样，更多细节查看 [Variables](#variables) 章节。
 
-:::
+### 环境变量文件 .env
 
-### .env files
-
-You can also ask Task to include `.env` like files by using the `dotenv:`
-setting:
+通过 `dotenv:` 可以让 Task 引用 `.env` 文件:
 
 ```bash title=".env"
 KEYNAME=VALUE
@@ -118,10 +106,9 @@ tasks:
       - echo "Using $KEYNAME and endpoint $ENDPOINT"
 ```
 
-## Including other Taskfiles
+## 引用 Taskfile
 
-If you want to share tasks between different projects (Taskfiles), you can use
-the importing mechanism to include other Taskfiles using the `includes` keyword:
+如果想要在不同项目复用 (Taskfiles)，可以使用引用机制，设置 `includes` 关键字:
 
 ```yaml
 version: '3'
@@ -131,20 +118,15 @@ includes:
   docker: ./DockerTasks.yml
 ```
 
-The tasks described in the given Taskfiles will be available with the informed
-namespace. So, you'd call `task docs:serve` to run the `serve` task from
-`documentation/Taskfile.yml` or `task docker:build` to run the `build` task
-from the `DockerTasks.yml` file.
+Taskfiles 中定义的 task 都可以通过引用时设置的命名空间名字来使用。比如，使用命令 `task docs:serve` 来调用 `documentation/Taskfile.yml` 文件中的  `serve` 任务，
+或使用  `task docker:build`  来调用`DockerTasks.yml` 文件中的 `build` 任务。
 
-Relative paths are resolved relative to the directory containing the including Taskfile.
+相对路径的解析是相对包含 Taskfile 的目录。
 
-### OS-specific Taskfiles
+### 特定操作系统的 Taskfile
 
-With `version: '2'`, task automatically includes any `Taskfile_{{OS}}.yml`
-if it exists (for example: `Taskfile_windows.yml`, `Taskfile_linux.yml` or
-`Taskfile_darwin.yml`). Since this behavior was a bit too implicit, it
-was removed on version 3, but you still can have a similar behavior by
-explicitly importing these files:
+在 `version: '2'` 中，task 尝试自动引入 `Taskfile_{{OS}}.yml` 文件（例如`Taskfile_windows.yml`, `Taskfile_linux.yml` 或
+`Taskfile_darwin.yml`）。但是因为过于隐晦，在版本 3 中被移除了，但版本 3 中依然可以通过明确的引用来实现类似功能:
 
 ```yaml
 version: '3'
@@ -153,11 +135,10 @@ includes:
   build: ./Taskfile_{{OS}}.yml
 ```
 
-### Directory of included Taskfile
+### 被引用 Taskfile 的目录
 
-By default, included Taskfile's tasks are run in the current directory, even
-if the Taskfile is in another directory, but you can force its tasks to run
-in another directory by using this alternative syntax:
+默认情况下，引用文件中的 task 也是在当前路径执行的，尽管被引用文件可能在另一个目录下，
+但是可以强制指定引用文件的执行目录:
 
 ```yaml
 version: '3'
@@ -168,14 +149,13 @@ includes:
     dir: ./docs
 ```
 
-:::info
+:::说明
 
-The included Taskfiles must be using the same schema version as the main
-Taskfile uses.
+被引用文件必须使用与主 Taskfile 相同的版本。
 
 :::
 
-### Optional includes
+### 可选引用 Optional includes
 
 Includes marked as optional will allow Task to continue execution as normal if
 the included file is missing.
@@ -1280,7 +1260,7 @@ tasks:
     - ./app{{exeExt}} -h localhost -p 8080
 ```
 
-## Watch tasks
+## 任务监控 Watch tasks
 
 With the flags `--watch` or `-w` task will watch for file changes
 and run the task again. This requires the `sources` attribute to be given,
