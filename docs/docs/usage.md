@@ -208,11 +208,8 @@ includes:
 
 ### 命名空间别名 Namespace aliases
 
-When including a Taskfile, you can give the namespace a list of `aliases`.
-This works in the same way as [task aliases](#task-aliases) and can be used
-together to create shorter and easier-to-type commands.
 引用 Taskfile 后，可以给 namespace 设置 `aliases` 列表。
-
+工作方式与 [task aliases](#task-aliases) 相同并且可以共同使用创造简短易用的命令。
 
 ```yaml
 version: '3'
@@ -223,21 +220,17 @@ includes:
     aliases: [gen]
 ```
 
-:::info
+:::说明
 
-Vars declared in the included Taskfile have preference over the
-variables in the including Taskfile! If you want a variable in an included Taskfile to be overridable,
-use the [default function](https://go-task.github.io/slim-sprig/defaults.html):
-`MY_VAR: '{{.MY_VAR | default "my-default-value"}}'`.
+引入文件中的变量优先级高于主文件！如果想要覆盖引入文件中的变量，用 [default function](https://go-task.github.io/slim-sprig/defaults.html):           
+`MY_VAR: '{{.MY_VAR | default "my-default-value"}}'`
 
 :::
 
-## Internal tasks
+## 内部任务 Internal tasks
 
-Internal tasks are tasks that cannot be called directly by the user. They will
-not appear in the output when running `task --list|--list-all`. Other tasks may
-call internal tasks in the usual way. This is useful for creating reusable,
-function-like tasks that have no useful purpose on the command line.
+内部任务是不能被直接调用的任务。它们不会出现在 `task --list|--list-all` 的列表中。
+其它任务可以正常调用内部任务。这种方式有助于创建可复用、类函数，但不需要命令行执行的任务。
 
 ```yaml
 version: '3'
@@ -255,11 +248,9 @@ tasks:
       - docker build -t {{.DOCKER_IMAGE}} .
 ```
 
-## Task directory
+## 任务目录 Task directory
 
-By default, tasks will be executed in the directory where the Taskfile is
-located. But you can easily make the task run in another folder, informing
-`dir`:
+默认情况下，task 会在 Taskfile 所在目录执行任务。需要变更执行目录时，只需要设置 `dir`:
 
 ```yaml
 version: '3'
@@ -272,16 +263,13 @@ tasks:
       - caddy
 ```
 
-If the directory does not exist, `task` creates it.
+如果目录不存在，`task` 会创建一个。
 
-## Task dependencies
+## 任务依赖 Task dependencies
 
-> Dependencies run in parallel, so dependencies of a task should not depend one
-> another. If you want to force tasks to run serially, take a look at the
-> [Calling Another Task](#calling-another-task) section below.
+> 依赖是并发执行的，所以依赖中的任务不能互相依赖。如果要按顺序执行，查看 [Calling Another Task](#calling-another-task) 章节。
 
-You may have tasks that depend on others. Just pointing them on `deps` will
-make them run automatically before running the parent task:
+你可能有些 task 是依赖其它任务的。只要在 `deps` 中标记，就可以自动提前执行依赖:
 
 ```yaml
 version: '3'
@@ -297,10 +285,9 @@ tasks:
       - minify -o public/style.css src/css
 ```
 
-In the above example, `assets` will always run right before `build` if you run
-`task build`.
+上面的例子中，如果运行 `task build`，那么 `assets` 总是会在 `build` 前执行。
 
-A task can have only dependencies and no commands to group tasks together:
+task 可以只包含依赖，不包含命令，这样可以对任务进行聚合:
 
 ```yaml
 version: '3'
@@ -318,18 +305,15 @@ tasks:
       - minify -o public/style.css src/css
 ```
 
-If there is more than one dependency, they always run in parallel for better
-performance.
+有多个依赖时，会并发执行来提高效率。
 
-:::tip
+:::提示
 
-You can also make the tasks given by the command line run in parallel by
-using the `--parallel` flag (alias `-p`). Example: `task --parallel js css`.
+还可以通过命令行参数 `--parallel` (简写 `-p`) 来并行执行任务。例如 : `task --parallel js css`
 
 :::
 
-If you want to pass information to dependencies, you can do that the same
-manner as you would to [call another task](#calling-another-task):
+如果想要给依赖任务传递参数，可以采取与 [call another task](#calling-another-task) 相同的方法:
 
 ```yaml
 version: '3'
@@ -349,11 +333,10 @@ tasks:
       - echo {{.TEXT}}
 ```
 
-## Calling another task
+## 调用其它任务 Calling another task
 
-When a task has many dependencies, they are executed concurrently. This will
-often result in a faster build pipeline. However, in some situations, you may need
-to call other tasks serially. In this case, use the following syntax:
+存在多个依赖时，这些依赖任务会并发执行。这样任务执行的会更快。但是，某些情况下，你需要按顺序调用任务。
+这种情况下可以使用下面的语法
 
 ```yaml
 version: '3'
@@ -374,8 +357,7 @@ tasks:
       - echo "Another task"
 ```
 
-Overriding variables in the called task is as simple as informing `vars`
-attribute:
+覆盖调用任务重的变量，只需要设置 `vars` 属性:
 
 ```yaml
 version: '3'
@@ -393,17 +375,16 @@ tasks:
         vars: {RECIPIENT: "Cruel World"}
 ```
 
-The above syntax is also supported in `deps`.
+上面的语法也可以用在 `deps` 中。
 
-:::tip
+:::提示
 
-NOTE: If you want to call a task declared in the root Taskfile from within an
-[included Taskfile](#including-other-taskfiles), add a leading `:` like this:
-`task: :task-name`.
+注意：如果在引用文件中调用主文件中的任务，需要添加 `:` 前缀，例如:
+`task: :task-name`。
 
 :::
 
-## Prevent unnecessary work
+## 节省非必要工作 Prevent unnecessary work
 
 ### By fingerprinting locally generated files and their sources
 
