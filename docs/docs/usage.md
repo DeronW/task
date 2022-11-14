@@ -157,8 +157,7 @@ includes:
 
 ### 可选引用 Optional includes
 
-Includes marked as optional will allow Task to continue execution as normal if
-the included file is missing.
+引用被标记为可选以后，即使文件不存在 Task 也可以继续执行其它命令。
 
 ```yaml
 version: '3'
@@ -174,12 +173,10 @@ tasks:
       - echo "This command can still be successfully executed if ./tests/Taskfile.yml does not exist"
 ```
 
-### Internal includes
+### 内部引用 Internal includes
 
-Includes marked as internal will set all the tasks of the included file to be
-internal as well (see the [Internal tasks](#internal-tasks) section below).
-This is useful when including utility tasks that are not intended to be used
-directly by the user.
+引用被标记为内部以后，引用文件中的 task 也都被标记为内部 task(查看 [Internal tasks](#internal-tasks) 内容)。
+它的用途是引用工具类型的 task 时可以避免被用户直接调用。
 
 ```yaml
 version: '3'
@@ -190,10 +187,9 @@ includes:
     internal: true
 ```
 
-### Vars of included Taskfiles
+### 引入文件的变量 Vars of included Taskfiles
 
-You can also specify variables when including a Taskfile. This may be useful
-for having reusable Taskfile that can be tweaked or even included more than once:
+引用 Taskfile 文件时可以指定变量，它的用途是在复用 Taskfile 时可以进行调整，甚至多次引用:
 
 ```yaml
 version: '3'
@@ -210,11 +206,13 @@ includes:
       DOCKER_IMAGE: frontend_image
 ```
 
-### Namespace aliases
+### 命名空间别名 Namespace aliases
 
 When including a Taskfile, you can give the namespace a list of `aliases`.
 This works in the same way as [task aliases](#task-aliases) and can be used
 together to create shorter and easier-to-type commands.
+引用 Taskfile 后，可以给 namespace 设置 `aliases` 列表。
+
 
 ```yaml
 version: '3'
