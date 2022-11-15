@@ -386,10 +386,9 @@ tasks:
 
 ## 节省非必要工作 Prevent unnecessary work
 
-### By fingerprinting locally generated files and their sources
+### 本地生成文件指纹 By fingerprinting locally generated files and their sources
 
-If a task generates something, you can inform Task the source and generated
-files, so Task will prevent running them if not necessary.
+如果 task 有生成物，就可以标记源文件和生成文件关系，这样 Task 就不会执行不必要的任务。
 
 ```yaml
 version: '3'
@@ -417,13 +416,11 @@ tasks:
       - public/style.css
 ```
 
-`sources` and `generates` can be files or file patterns. When given,
-Task will compare the checksum of the source files to determine if it's
-necessary to run the task. If not, it will just print a message like
-`Task "js" is up to date`.
+`sources` 和 `generates` 可以指定文件或采用匹配模式。设置后，
+Task 会对比源文件的 checksum 来决定是否需要执行当前任务。如果不需要执行，
+则会输出像 `Task "js" is up to date` 这样的信息。
 
-If you prefer this check to be made by the modification timestamp of the files,
-instead of its checksum (content), just set the `method` property to `timestamp`.
+对比文件的方法如果想用时间戳而不是 checksum，只需要把 `method` 属性设置为 `timestamp`。
 
 ```yaml
 version: '3'
@@ -439,24 +436,17 @@ tasks:
     method: timestamp
 ```
 
-In situations where you need more flexibility the `status` keyword can be used.
-You can even combine the two. See the documentation for
-[status](#using-programmatic-checks-to-indicate-a-task-is-up-to-date) for an
-example.
+更复杂的情况可以使用 `status` 关键字。
+甚至可以进行组合使用。查看文档 [status](#using-programmatic-checks-to-indicate-a-task-is-up-to-date) 了解更多细节。
 
-:::info
 
-By default, task stores checksums on a local `.task` directory in the project's
-directory. Most of the time, you'll want to have this directory on `.gitignore`
-(or equivalent) so it isn't committed. (If you have a task for code generation
-that is committed it may make sense to commit the checksum of that task as
-well, though).
+:::说明
 
-If you want these files to be stored in another directory, you can set a
-`TASK_TEMP_DIR` environment variable in your machine. It can contain a relative
-path like `tmp/task` that will be interpreted as relative to the project
-directory, or an absolute or home path like `/tmp/.task` or `~/.task`
-(subdirectories will be created for each project).
+默认情况，task 在本地项目的 `.task` 目录保存 checksums 值。一般都会在 `.gitignore`（或类似配置） 
+中忽略掉这个目录，来避免被提交。（如果 task 中有生成代码的功能，那么提交这个目录似乎也有些道理）。
+
+如果想要在其它目录保存这些文件，可以设置 `TASK_TEMP_DIR` 环境变量。支持相对路径，比如 `tmp/task`，
+相对项目目录，或绝对路径、用户目录路径，比如 `/tmp/.task` 或 `~/.task`（每个项目都会创建子目录）。
 
 ```bash
 export TASK_TEMP_DIR='~/.task'
@@ -464,12 +454,14 @@ export TASK_TEMP_DIR='~/.task'
 
 :::
 
-:::info
+:::说明
 
 Each task has only one checksum stored for its `sources`. If you want
 to distinguish a task by any of its input variables, you can add those
 variables as part of the task's label, and it will be considered a different
 task.
+
+
 
 This is useful if you want to run a task once for each distinct set of
 inputs until the sources actually change. For example, if the sources depend
