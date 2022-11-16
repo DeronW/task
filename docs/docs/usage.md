@@ -456,38 +456,30 @@ export TASK_TEMP_DIR='~/.task'
 
 :::说明
 
-Each task has only one checksum stored for its `sources`. If you want
-to distinguish a task by any of its input variables, you can add those
-variables as part of the task's label, and it will be considered a different
-task.
+每个 task 都有保存一个 `sources` 的 checksum。如果需要根据输入变量来区分 task，就需要
+把变量作为 task 的一个标签，这样就会被当做一个不同的 task。
 
-
-
-This is useful if you want to run a task once for each distinct set of
-inputs until the sources actually change. For example, if the sources depend
-on the value of a variable, or you if you want the task to rerun if some arguments
-change even if the source has not.
+这种方式用于在不同入参下触发 task，直到 resource 发生真正的变化。例如，你想让 resource 依赖
+某个变量，或者虽然 resource 没变，但参数变化时依然重新执行 task。
 
 :::
 
-:::tip
+:::提示
 
-The method `none` skips any validation and always run the task.
-
-:::
-
-:::info
-
-For the `checksum` (default) method to work, it is only necessary to
-inform the source files, but if you want to use the `timestamp` method, you
-also need to inform the generated files with `generates`.
+`none` 方法跳过校验，每次都会执行 task。
 
 :::
 
-### Using programmatic checks to indicate a task is up to date.
+:::说明
 
-Alternatively, you can inform a sequence of tests as `status`. If no error
-is returned (exit status 0), the task is considered up-to-date:
+想要 `checksum`（默认）方法生效，只需要配置 source 文件，但如果想用 `timestamp` 方法，
+你还需要通过 `generates` 来标记生成的文件。
+
+:::
+
+### 程序判断 task 是否已更新 Using programmatic checks to indicate a task is up to date.
+
+还有一种方法，你可以使用一系列测试作为 `status`。如果正常返回（退出信号是 0），那么任务就被当做已更新:
 
 ```yaml
 version: '3'
@@ -505,30 +497,24 @@ tasks:
       - test -f directory/file2.txt
 ```
 
-Normally, you would use `sources` in combination with
-`generates` - but for tasks that generate remote artifacts (Docker images,
-deploys, CD releases) the checksum source and timestamps require either
-access to the artifact or for an out-of-band refresh of the `.checksum`
-fingerprint file.
+一般情况，你需要 `generates` 需要 `sources` 一起配合使用 - 但如果存在远程生成物（Docker 镜像，部署，持续发布）
+checksum 和 timestamp 就需要有处理远程文件的权限，或能够刷新 `.checksum` 指纹文件的外挂。
 
-Two special variables `{{.CHECKSUM}}` and `{{.TIMESTAMP}}` are available
-for interpolation within `status` commands, depending on the method assigned
-to fingerprint the sources. Only `source` globs are fingerprinted.
+有两个特殊变量 `{{.CHECKSUM}}` 和 `{{.TIMESTAMP}}` 可以作为 `status` 命令的插值，具体取决于生成 source 指纹的方法。
+只有 `source` 块才能生成指纹。
 
-Note that the `{{.TIMESTAMP}}` variable is a "live" Go `time.Time` struct, and
-can be formatted using any of the methods that `time.Time` responds to.
+注意， `{{.TIMESTAMP}}` 变量在 Go 语音 `time.Time` 结构体，可以被相应的 `time.Time` 方法进行格式化。
 
-See [the Go Time documentation](https://golang.org/pkg/time/) for more information.
+查看 [the Go Time documentation](https://golang.org/pkg/time/) 了解更多信息。
 
-You can use `--force` or `-f` if you want to force a task to run even when
-up-to-date.
+可以使用 `--force` 或 `-f` 来强制 task 执行。
 
-Also, `task --status [tasks]...` will exit with a non-zero exit code if any of
-the tasks are not up-to-date.
+同时，`task --status [tasks]...` 会返回非 0 状态码，只要有任何 task 没有更新到最新。
 
 `status` can be combined with the [fingerprinting](#by-fingerprinting-locally-generated-files-and-their-sources)
 to have a task run if either the the source/generated artifacts changes, or the
 programmatic check fails:
+`status` 可以与
 
 ```yaml
 version: '3'
