@@ -590,9 +590,8 @@ tasks:
 `run` 支持参数:
 
  * `always` (默认) 每次调用都会执行，不论之前是否被调用过
- * `once` only invoke this task once regardless of the number of references
- * `when_changed` only invokes the task once for each unique set of variables
-  passed into the task
+ * `once` 只掉一次，不论之后是否再次被引用
+ * `when_changed` 每组变量仅调用一次
 
 ```yaml
 version: '3'
@@ -620,34 +619,30 @@ tasks:
       - sleep 5 # long operation like installing packages
 ```
 
-## Variables
+## 变量 Variables
 
-When doing interpolation of variables, Task will look for the below.
-They are listed below in order of importance (i.e. most important first):
+使用变量进行插值时，Task 会按照以下优先级进行查找（高优先级在前）:
 
-- Variables declared in the task definition
-- Variables given while calling a task from another
-  (See [Calling another task](#calling-another-task) above)
-- Variables of the [included Taskfile](#including-other-taskfiles) (when the task is included)
+- task 内部定义的变量
+- 被其它 task 调用时传入的变量(查看 [Calling another task](#calling-another-task))
+- 引用文件中的变量 [included Taskfile](#including-other-taskfiles) (当引入 task 时)
 - Variables of the [inclusion of the Taskfile](#vars-of-included-taskfiles) (when the task is included)
-- Global variables (those declared in the `vars:` option in the Taskfile)
-- Environment variables
+- 全局变量 (在 Taskfile 的 `vars:` 中声明)
+- 系统环境变量
 
-Example of sending parameters with environment variables:
+利用环境变量传递参数的例子:
 
 ```bash
 $ TASK_VARIABLE=a-value task do-something
 ```
 
-:::tip
+:::提示
 
-A special variable `.TASK` is always available containing the task name.
+变量 `.TASK` 始终代表 task 的名字。
 
 :::
 
-Since some shells do not support the above syntax to set environment variables
-(Windows) tasks also accept a similar style when not at the beginning of
-the command.
+因为有些 shell 不支持上面的语法（Windows）task 还支持环境变量不在开头的命令。
 
 ```bash
 $ task write-file FILE=file.txt "CONTENT=Hello, World!" print "MESSAGE=All done!"
