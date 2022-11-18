@@ -511,10 +511,8 @@ checksum 和 timestamp 就需要有处理远程文件的权限，或能够刷新
 
 同时，`task --status [tasks]...` 会返回非 0 状态码，只要有任何 task 没有更新到最新。
 
-`status` can be combined with the [fingerprinting](#by-fingerprinting-locally-generated-files-and-their-sources)
-to have a task run if either the the source/generated artifacts changes, or the
-programmatic check fails:
-`status` 可以与
+`status` 可以与 [fingerprinting](#by-fingerprinting-locally-generated-files-and-their-sources) 配合使用，
+来判断一个 task 是否根据 source/generated 变化或程序检查失败的条件来执行:
 
 ```yaml
 version: '3'
@@ -536,13 +534,11 @@ tasks:
       - grep -q '"dev": false' ./vendor/composer/installed.json
 ```
 
-### Using programmatic checks to cancel the execution of a task and its dependencies
+### 程序检查任务执行条件 Using programmatic checks to cancel the execution of a task and its dependencies
 
-In addition to `status` checks, `preconditions` checks are
-the logical inverse of `status` checks.  That is, if you need a certain set of
-conditions to be _true_ you can use the `preconditions` stanza.
-`preconditions` are similar to `status` lines, except they support `sh`
-expansion, and they SHOULD all return 0.
+相比 `status` 检查，`preconditions` 是逻辑上相反的检查。如果你需要前提条件为 _true_ ，
+可以使用  `preconditions` 字段。 `preconditions` 与 `status` 用法类似，
+不仅都支持 `sh` 表达式，并且表达式返回值都应该是 0。
 
 ```yaml
 version: '3'
@@ -560,17 +556,13 @@ tasks:
         msg: "One doesn't equal Zero, Halting"
 ```
 
-Preconditions can set specific failure messages that can tell
-a user what steps to take using the `msg` field.
+前置条件可以设置错误信息，提示用户下一步操作，只要配置 `msg` 字段。
 
-If a task has a dependency on a sub-task with a precondition, and that
-precondition is not met - the calling task will fail.  Note that a task
-executed with a failing precondition will not run unless `--force` is
-given.
+如果某个 task 依赖了带有前置条件的子 task，并且前置条件并未满足，则 task 会失败。
+注意，前置条件失败的 task 不会执行，除非使用了 `--force` 标记。
 
-Unlike `status`, which will skip a task if it is up to date and continue
-executing tasks that depend on it, a `precondition` will fail a task, along
-with any other tasks that depend on it.
+与 `status` 不同，如果 task 已经是最近状态，则会跳过然后继续执行，一个 `precondition` 会导致
+一个 task 失败，顺带依赖当前 task 的 task 都会失败。
 
 ```yaml
 version: '3'
@@ -590,17 +582,14 @@ tasks:
       - echo "I will not run"
 ```
 
-### Limiting when tasks run
+### 限制 task 执行 Limiting when tasks run
 
-If a task executed by multiple `cmds` or multiple `deps` you can control
-when it is executed using `run`. `run` can also be set at the root
-of the Taskfile to change the behavior of all the tasks unless explicitly
-overridden.
+如果一个 task 被多个 `cmds` 调用，或被多个 `deps` 依赖，那么可以通过 `run` 来控制执行过程。
+`run` 也可以设置为 Taskfile 的根属性，设置全局默认执行行为。
 
-Supported values for `run`:
+`run` 支持参数:
 
- * `always` (default) always attempt to invoke the task regardless of the
-  number of previous executions
+ * `always` (默认) 每次调用都会执行，不论之前是否被调用过
  * `once` only invoke this task once regardless of the number of references
  * `when_changed` only invokes the task once for each unique set of variables
   passed into the task
