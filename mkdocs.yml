@@ -2,17 +2,17 @@ site_name: Task
 repo_url: https://github.com/DeronW/task/
 
 nav:
-  - 介绍: intro.zh.md
-  - 安装: installation.zh.md
+  - 介绍[done]: intro.zh.md
+  - 安装[done]: installation.zh.md
   - 使用: usage.zh.md
   - API: api_reference.zh.md
   - 风格指南: styleguide.zh.md
-  - 变更记录: changelog.md
+  - Changelog: changelog.md
   - 社区: community.zh.md
   - 贡献: contributing.zh.md
   - 发布: releasing.zh.md
-  - 版本: taskfile_versions.zh.md
-  - 捐助: donate.zh.md
+  - 版本[done]: taskfile_versions.zh.md
+  - 捐助[done]: donate.zh.md
 
 theme:
   name: readthedocs
