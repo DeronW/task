@@ -1,6 +1,0 @@
-task: [foo] echo "foo"
-foo
-task: [bar] echo "bar"
-bar
-task: [included:qux] echo "qux"
-qux

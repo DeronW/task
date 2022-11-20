@@ -1,8 +1,0 @@
-version: '3'
-
-tasks:
-  whereami:
-    dir: createme
-    cmds:
-      - pwd
-    silent: true

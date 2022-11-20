@@ -1,6 +1,0 @@
-version: '3'
-
-tasks:
-  gen:
-    cmds:
-      - echo included_directory > included_directory.txt
