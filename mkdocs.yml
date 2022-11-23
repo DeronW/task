@@ -6,9 +6,9 @@ nav:
   - 安装[done]: installation.zh.md
   - 使用: usage.zh.md
   - API: api_reference.zh.md
-  - 风格指南: styleguide.zh.md
-  - Changelog: changelog.md
-  - 社区: community.zh.md
+  - 风格指南[done]: styleguide.zh.md
+  - Changelog[no translate]: changelog.md
+  - 社区[done]: community.zh.md
   - 贡献[done]: contributing.zh.md
   - 发布[done]: releasing.zh.md
   - 版本[done]: taskfile_versions.zh.md

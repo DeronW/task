@@ -14,7 +14,8 @@ brew install go-task/tap/go-task
 
 ### Snap
 
-Task 可以通过 [Snapcraft][snapcraft] 安装，但要注意你的 Linux 发行版需要符合 Snaps 的 classic 约束才能正确安装：
+Task 可以通过 [Snapcraft][snapcraft] 安装，
+但要注意你的 Linux 发行版需要符合 Snaps 的 classic 约束才能正确安装：
 
 ```bash
 sudo snap install task --classic
@@ -42,7 +43,8 @@ scoop install task
 
 ### AUR
 
-如果是 Arch Linux 你可以用 [AUR](https://aur.archlinux.org/packages/go-task-bin) 安装，只要配合你喜欢的包管理器，比如 `yay`, `pacaur` 或 `yaourt`：
+如果是 Arch Linux 你可以用 [AUR](https://aur.archlinux.org/packages/go-task-bin) 安装，
+只要配合你喜欢的包管理器，比如 `yay`, `pacaur` 或 `yaourt`：
 
 ```cmd
 yay -S go-task-bin
@@ -59,13 +61,15 @@ yay -S go-task
 
 ### Fedora
 
-在 Fedora 上，可以使用 `dnf` 通过官方仓库 [Fedora](https://packages.fedoraproject.org/pkgs/golang-github-task/go-task/) 来安装：
+在 Fedora 上，可以使用 `dnf` 通过官方仓库
+[Fedora](https://packages.fedoraproject.org/pkgs/golang-github-task/go-task/) 来安装：
 
 ```cmd
 sudo dnf install go-task
 ```
 
-这种方式由社区维护。新版 Task 发布后，需要一段时间才能通过 [Fedora](https://packages.fedoraproject.org/pkgs/golang-github-task/go-task/) 安装。
+这种方式由社区维护。新版 Task 发布后，需要一段时间才能通过
+[Fedora](https://packages.fedoraproject.org/pkgs/golang-github-task/go-task/) 安装。
 
 ### Nix
 
@@ -75,11 +79,12 @@ sudo dnf install go-task
 nix-env -iA nixpkgs.go-task
 ```
 
-这种方式由社区维护。新版 Task 发布后，需要一段时间才能通过 [nixpkgs](https://github.com/NixOS/nixpkgs) 安装。
+这种方式由社区维护。新版 Task 发布后，需要一段时间才能通过
+[nixpkgs](https://github.com/NixOS/nixpkgs) 安装。
 
 ### npm
 
-你还可以通过 Node 和 npm 的 [包](https://www.npmjs.com/package/@go-task/cli) 来安装 Task：
+你还可以通过 Node 和 npm 的[包](https://www.npmjs.com/package/@go-task/cli) 来安装 Task：
 
 ```bash
 npm install -g @go-task/cli
@@ -97,7 +102,8 @@ npm install -g @go-task/cli
 
 ### 安装脚本
 
-我们的 [安装脚本][installscript] 在某些情况下也非常有用，比如在 CI 中。多谢 [GoDownloader][godownloader] 帮助生成安装脚本。
+我们的 [安装脚本][installscript] 在某些情况下也非常有用，
+比如在 CI 中。多谢 [GoDownloader][godownloader] 帮助生成安装脚本。
 
 默认情况下，安装脚本会安装到工作目录的相对路径 `./bin` 下：
 
@@ -119,7 +125,8 @@ sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
 
 ### GitHub Actions
 
-如果想在 GitHub Actions 中安装 Task，可以尝试 Arduino 团队的 [action](https://github.com/arduino/setup-task)：
+如果想在 GitHub Actions 中安装 Task，
+可以尝试 Arduino 团队的 [action](https://github.com/arduino/setup-task)：
 
 ```yaml
 - name: Install Task
@@ -154,7 +161,8 @@ env GO111MODULE=on go get -u github.com/go-task/task/v3/cmd/task@latest
 
     提示
 
-    CI 环境中，我们建议使用 [安装脚本](#get-the-binary)，更快捷更稳定，因为它只是下载了最新的发布版二进制文件。
+    CI 环境中，我们建议使用 [安装脚本](#get-the-binary)，
+    更快捷更稳定，因为它只是下载了最新的发布版二进制文件。
 
 ## 安装自动补全
 

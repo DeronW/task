@@ -2,11 +2,13 @@
 
 如果觉得项目有用，请考虑用以下渠道进行捐赠。
 
-捐助只是一种表达 “感谢” 的方法，没有实际好处，不会因此获得更高的问题优先级或其它类似特权。
+捐助只是一种表达 “感谢” 的方法，没有实际好处，
+不会因此获得更高的问题优先级或其它类似特权。
 
 ## Open Collective
 
-Task 在 [Open Collective](https://opencollective.com/task) 上，有多种捐助方式：
+Task 在 [Open Collective](https://opencollective.com/task) 上，
+有多种捐助方式：
 
 - [每月 2 刀](https://opencollective.com/task/contribute/backer-4034/checkout)
 - [每月 5 刀](https://opencollective.com/task/contribute/supporter-8404/checkout)
