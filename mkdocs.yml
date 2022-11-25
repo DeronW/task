@@ -4,7 +4,7 @@ repo_url: https://github.com/DeronW/task/
 nav:
   - 介绍[done]: intro.zh.md
   - 安装[done]: installation.zh.md
-  - 使用: usage.zh.md
+  - 使用[done]: usage.zh.md
   - API: api_reference.zh.md
   - 风格指南[done]: styleguide.zh.md
   - Changelog[no translate]: changelog.md
