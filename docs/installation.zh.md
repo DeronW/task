@@ -118,10 +118,12 @@ sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
 sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
 ```
 
-    **注意**
+:::caution
 
-    在 macOS 和 Windows 中，`~/.local/bin` 和 `~/bin` 目录
-    默认是没有添加到 `$PATH` 当中的。
+在 macOS 和 Windows 中，`~/.local/bin` 和 `~/bin` 目录
+默认是没有添加到 `$PATH` 当中的。
+
+:::
 
 ### GitHub Actions
 
@@ -159,10 +161,12 @@ env GOBIN=/bin go install github.com/go-task/task/v3/cmd/task@latest
 env GO111MODULE=on go get -u github.com/go-task/task/v3/cmd/task@latest
 ```
 
-    提示
+:::tip
 
-    CI 环境中，我们建议使用 [安装脚本](#get-the-binary)，
-    更快捷更稳定，因为它只是下载了最新的发布版二进制文件。
+CI 环境中，我们建议使用 [安装脚本](#get-the-binary)，
+更快捷更稳定，因为它只是下载了最新的发布版二进制文件。
+
+:::
 
 ## 安装自动补全
 

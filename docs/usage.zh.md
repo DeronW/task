@@ -25,7 +25,8 @@ tasks:
 task assets build
 ```
 
-Task 采用了 [mvdan.cc/sh](https://mvdan.cc/sh/) ，一个 Go 原生的 sh 编译器。
+Task 采用了 [mvdan.cc/sh](https://mvdan.cc/sh/) ，
+一个 Go 原生的 sh 编译器。
 所以你的 sh/bash 命令甚至能在 windows 上通用。
 但要注意使用的命令必须是操作系统支持的。
 
@@ -41,7 +42,8 @@ Task 会按顺序寻找配置文件:
 - Taskfile.dist.yaml
 
 允许 `.dist` 扩展文件是为了可以在项目中提交一个（`.dist`）配置文件，
-同时允许每个开发者使用自定义的 `Taskfile.yml` 文件进行覆盖（自定义文件应该在`.gitignore`中标记忽略）
+同时允许每个开发者使用自定义的 `Taskfile.yml` 文件进行覆盖
+（自定义文件应该在`.gitignore`中标记忽略）
 
 ## 环境变量
 
@@ -74,10 +76,12 @@ tasks:
       - echo $GREETING
 ```
 
-:::说明
+:::info
 
-    `env` 还可以使用 shell 命令的结果，就像变量那样，
-    更多细节查看 [Variables](#variables) 章节。
+`env` 还可以使用 shell 命令的结果，就像变量那样，
+更多细节查看 [Variables](#variables) 章节。
+
+:::
 
 ### .env 文件
 
@@ -140,7 +144,8 @@ includes:
 
 ### 被引用 Taskfile 的目录
 
-默认情况下，引用文件中的 task 也是在当前路径执行的，尽管被引用文件可能在另一个目录下，
+默认情况下，引用文件中的 task 也是在当前路径执行的，
+尽管被引用文件可能在另一个目录下，
 但是可以强制指定引用文件的执行目录:
 
 ```yaml
@@ -152,9 +157,11 @@ includes:
     dir: ./docs
 ```
 
-:::说明
+:::info
 
-    被引用文件必须使用与主 Taskfile 相同的版本。
+被引用文件必须使用与主 Taskfile 的版本相同。
+
+:::
 
 ### 可选引用
 
@@ -224,11 +231,14 @@ includes:
     aliases: [gen]
 ```
 
-:::说明
+:::info
 
-    引入文件中的变量优先级高于主文件！如果想要覆盖引入文件中的变量，用 [default function](https://go-task.github.io/slim-sprig/defaults.html):
+引入文件中的变量优先级高于主文件！如果想要覆盖引入文件中的变量，
+用 [default function](https://go-task.github.io/slim-sprig/defaults.html):
 
 `MY_VAR: '{{.MY_VAR | default "my-default-value"}}'`
+
+:::
 
 ## 内部任务
 
@@ -313,9 +323,11 @@ tasks:
 
 有多个依赖时，会并发执行来提高效率。
 
-:::提示
+:::tip
 
-    还可以通过命令行参数 `--parallel` (简写 `-p`) 来并行执行任务。例如: `task --parallel js css`
+还可以通过命令行参数 `--parallel` (简写 `-p`) 来并行执行任务。例如: `task --parallel js css`
+
+:::
 
 如果想要给依赖任务传递参数，可以采取 [调用其它任务](#调用其它任务) 中的方法:
 
