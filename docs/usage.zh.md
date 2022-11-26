@@ -76,26 +76,30 @@ tasks:
       - echo $GREETING
 ```
 
-:::info
-
-`env` 还可以使用 shell 命令的结果，就像变量那样，
-更多细节查看 [Variables](#variables) 章节。
-
-:::
+> NOTE:
+>
+> `env` 还可以使用 shell 命令的结果，就像变量那样，
+> 更多细节查看 [Variables](#variables) 章节。
 
 ### .env 文件
 
 通过 `dotenv:` 可以让 Task 引用类似 `.env` 的文件：
 
-```bash title=".env"
+title=".env"
+
+```bash
 KEYNAME=VALUE
 ```
 
-```bash title="testing/.env"
+title="testing/.env"
+
+```bash
 ENDPOINT=testing.com
 ```
 
-```yaml title="Taskfile.yml"
+title="Taskfile.yml"
+
+```yaml
 version: "3"
 
 env:
@@ -157,11 +161,8 @@ includes:
     dir: ./docs
 ```
 
-:::info
-
-被引用文件必须使用与主 Taskfile 的版本相同。
-
-:::
+> NOTE:
+> 被引用文件必须使用与主 Taskfile 的版本相同。
 
 ### 可选引用
 
@@ -231,14 +232,11 @@ includes:
     aliases: [gen]
 ```
 
-:::info
-
-引入文件中的变量优先级高于主文件！如果想要覆盖引入文件中的变量，
-用 [default function](https://go-task.github.io/slim-sprig/defaults.html):
-
-`MY_VAR: '{{.MY_VAR | default "my-default-value"}}'`
-
-:::
+> NOTE:
+> 引入文件中的变量优先级高于主文件！如果想要覆盖引入文件中的变量，
+> 用 [default function](https://go-task.github.io/slim-sprig/defaults.html):
+>
+> `MY_VAR: '{{.MY_VAR | default "my-default-value"}}'`
 
 ## 内部任务
 
@@ -323,11 +321,9 @@ tasks:
 
 有多个依赖时，会并发执行来提高效率。
 
-:::tip
-
-还可以通过命令行参数 `--parallel` (简写 `-p`) 来并行执行任务。例如: `task --parallel js css`
-
-:::
+> NOTE:
+> 还可以通过命令行参数 `--parallel` (简写 `-p`) 来并行执行任务。
+> 例如: `task --parallel js css`
 
 如果想要给依赖任务传递参数，可以采取 [调用其它任务](#调用其它任务) 中的方法:
 
@@ -393,12 +389,9 @@ tasks:
 
 上面的语法也可以用在 `deps` 中。
 
-:::tip
-
-注意：如果在引用文件中调用主文件中的 task，需要添加 `:` 前缀，例如:
-`task: :task-name`。
-
-:::
+> NOTE
+> 注意：如果在引用文件中调用主文件中的 task，需要添加 `:` 前缀，
+> 例如: `task: :task-name`。
 
 ## 减少非必要工作
 
@@ -456,46 +449,34 @@ tasks:
 
 更复杂的情况可以使用 `status` 关键字。甚至可以多个进行组合使用。在文档 [程序判断 task 是否已更新](#程序判断-task-是否已更新) 中查看例子。
 
-:::info
+> NOTE:
+> 默认情况，task 在本地项目的 `.task` 目录保存 checksums 值。
+> 一般都会在 `.gitignore`（或类似配置）中忽略掉这个目录。
+> （如果 task 中有生成代码的功能，那么提交这个目录似乎也有些道理）。
+>
+> 如果想要在其它目录保存这些文件，可以配置环境变量 `TASK_TEMP_DIR`。
+> 可以使用相对路径，比如 `tmp/task`，相对项目根目录，
+> 也可以用绝对路径、用户目录路径，比如 `/tmp/.task`
+> 或 `~/.task`（每个项目单独创建子目录）。
+>
+> ```bash
+> export TASK_TEMP_DIR='~/.task'
+> ```
 
-默认情况，task 在本地项目的 `.task` 目录保存 checksums 值。
-一般都会在 `.gitignore`（或类似配置）中忽略掉这个目录。
-（如果 task 中有生成代码的功能，那么提交这个目录似乎也有些道理）。
+> NOTE:
+> 每个 task 只有一个 `sources` 的 checksum。如果需要根据输入变量来区分 task，
+> 就需要把变量作为 task 的一个标签，这样就会被当做一个不同的 task。
+>
+> 这种方式用于在不同入参下触发 task，直到 resource 发生的变化。
+> 例如，你想让 resource 依赖某个变量，或者虽然 resource 没变，
+> 但参数变化时依然重新执行 task。
 
-如果想要在其它目录保存这些文件，可以配置环境变量 `TASK_TEMP_DIR`。
-可以使用相对路径，比如 `tmp/task`，相对项目根目录，
-也可以用绝对路径、用户目录路径，比如 `/tmp/.task`
-或 `~/.task`（每个项目单独创建子目录）。
+> NOTE:
+> 配置为 `none` 会跳过校验，每次都会执行 task。
 
-```bash
-export TASK_TEMP_DIR='~/.task'
-```
-
-:::
-
-:::info
-
-每个 task 只有一个 `sources` 的 checksum。如果需要根据输入变量来区分 task，
-就需要把变量作为 task 的一个标签，这样就会被当做一个不同的 task。
-
-这种方式用于在不同入参下触发 task，直到 resource 发生的变化。
-例如，你想让 resource 依赖某个变量，或者虽然 resource 没变，
-但参数变化时依然重新执行 task。
-
-:::
-
-:::tip
-
-配置为 `none` 会跳过校验，每次都会执行 task。
-
-:::
-
-:::info
-
-想要 `checksum`（默认）方法生效，只需要配置 source 文件，
-但如果想用 `timestamp` 方法，还需要通过 `generates` 来标记生成的文件。
-
-:::
+> NOTE:
+> 想要 `checksum`（默认）方法生效，只需要配置 source 文件，
+> 但如果想用 `timestamp` 方法，还需要通过 `generates` 来标记生成的文件。
 
 ### 程序判断 task 是否已更新
 
@@ -661,11 +642,8 @@ tasks:
 $ TASK_VARIABLE=a-value task do-something
 ```
 
-:::tip
-
-变量 `.TASK` 始终代表 task 的名字。
-
-:::
+> NOTE:
+> 变量 `.TASK` 始终代表 task 的名字。
 
 因为有些 shell 不支持上面的语法（Windows）task 还支持环境变量不在开头的命令。
 
@@ -772,12 +750,9 @@ tasks:
   cleanup: rm -rf tmpdir/
 ```
 
-:::info
-
-根据 [Go's 的 `defer` 工作方式](https://go.dev/tour/flowcontrol/13)，
-被推迟的任务是按相反的顺序执行的，如果你定义了多个清理任务。
-
-:::
+> NOTE:
+> 根据 [Go's 的 `defer` 工作方式](https://go.dev/tour/flowcontrol/13)，
+> 被推迟的任务是按相反的顺序执行的，如果你定义了多个清理任务。
 
 ## Go 的模板引擎
 
@@ -1162,11 +1137,8 @@ $ task default
 [print-baz] baz
 ```
 
-:::tip
-
-`output` 选项也可以通过命令行参数`--output` 或 `-o` 指定。
-
-:::
+> NOTE:
+> `output` 选项也可以通过命令行参数`--output` 或 `-o` 指定。
 
 ## 交互式命令行应用
 

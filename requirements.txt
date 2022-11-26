@@ -64,3 +64,7 @@ watchdog==2.1.9
     # via mkdocs
 zipp==3.8.0
     # via importlib-metadata
+
+pymdown-extensions==9.9
+mkdocs_click==0.8.0
+markdown-callouts==0.3.0

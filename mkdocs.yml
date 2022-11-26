@@ -5,7 +5,7 @@ nav:
   - 介绍: intro.zh.md
   - 安装: installation.zh.md
   - 用法: usage.zh.md
-  - API参考: api_reference.zh.md
+  - API 参考: api_reference.zh.md
   - 风格指南: styleguide.zh.md
   - Changelog: changelog.md
   - 社区: community.zh.md
@@ -18,4 +18,19 @@ theme:
   name: readthedocs
   locale: zh
   highlightjs: true
+  hljs_languages:
+    - yaml
 
+markdown_extensions:
+  # - attr_list
+  # - def_list
+  # - tables
+  - pymdownx.highlight:
+      use_pygments: false
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - callouts
+  # - mdx_gh_links:
+  #   user: mkdocs
+  #   repo: mkdocs
+  - mkdocs-click

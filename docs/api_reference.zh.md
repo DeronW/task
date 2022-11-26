@@ -8,11 +8,8 @@ Task 命令行工具的语法如下:
 task [--flags] [tasks...] [-- CLI_ARGS...]
 ```
 
-:::tip
-
-如果使用了 `--`，剩下的参数都会被传给内置的 `CLI_ARGS` 变量
-
-:::
+> NOTE:
+> 如果使用了 `--`，剩下的参数都会被传给内置的 `CLI_ARGS` 变量
 
 | 缩写 | 标记 | 类型 | 默认 | 说明 |
 | - | - | - | - | - |
@@ -96,16 +93,13 @@ task [--flags] [tasks...] [-- CLI_ARGS...]
 | `aliases` | `[]string` | | 设置被引用文件的命名空间别名 |
 | `vars` | `map[string]Variable` | | 一组给被引用文件设置的变量 |
 
-:::info
-
-直接赋值一个字符串，与将字符串赋值给 `taskfile` 属性的作用是相同的。
-
-```yaml
-includes:
-  foo: ./path
-```
-
-:::
+> NOTE:
+> 直接赋值一个字符串，与将字符串赋值给 `taskfile` 属性的作用是相同的。
+>
+> ```yaml
+> includes:
+>   foo: ./path
+> ```
 
 ### Task
 
@@ -132,23 +126,21 @@ includes:
 | `ignore_error` | `bool` | `false` | 执行命令的时候忽略错误，继续执行 |
 | `run` | `string` | Taskfile 中全局声明的值或 `always` | 定义 task 是否应该被执行多次，支持：`always`, `once` 和 `when_changed` |
 
-:::info
-
-以下语法也有效，定义内容会被设置给 `cmds` ，其它属性会使用默认值:
-
-```yaml
-tasks:
-  foo: echo "foo"
-
-  foobar:
-    - echo "foo"
-    - echo "bar"
-
-  baz:
-    cmd: echo "baz"
-```
-
-:::
+> NOTE:
+> 以下语法也有效，定义内容会被设置给 `cmds` ，其它属性会使用默认值:
+> 
+> ```yaml
+> tasks:
+>   foo: echo "foo"
+> 
+>   foobar:
+>     - echo "foo"
+>     - echo "bar"
+> 
+>   baz:
+>     cmd: echo "baz"
+> ```
+> 
 
 ### Dependency
 
@@ -157,17 +149,15 @@ tasks:
 | `task` | `string` | | 作为依赖，需要执行的 task |
 | `vars` | [`map[string]Variable`](#variable) | | 可选变量，会传递给 task |
 
-:::tip
-
-如果不需要设置变量，可以只声明一个数组（会被赋值给 `task`）:
-
-```yaml
-tasks:
-  foo:
-    deps: [foo, bar]
-```
-
-:::
+> NOTE:
+> 如果不需要设置变量，可以只声明一个数组（会被赋值给 `task`）:
+> 
+> ```yaml
+> tasks:
+>   foo:
+>     deps: [foo, bar]
+> ```
+> 
 
 ### Command
 
@@ -180,19 +170,17 @@ tasks:
 | `ignore_error` | `bool` | `false` | 执行命令的时候忽略错误，继续执行 |
 | `defer` | `string` | | 同 `cmd`, 但不立即执行，而延迟到 task 的最后执行。不能与 `cmd` 一同使用 |
 
-:::info
-
-如果配置了一个字符串，则值传递给 `cmd`:
-
-```yaml
-tasks:
-  foo:
-    cmds:
-      - echo "foo"
-      - echo "bar"
-```
-
-:::
+> NOTE:
+> 如果配置了一个字符串，则值传递给 `cmd`:
+> 
+> ```yaml
+> tasks:
+>   foo:
+>     cmds:
+>       - echo "foo"
+>       - echo "bar"
+> ```
+> 
 
 ### Variable
 
@@ -201,18 +189,16 @@ tasks:
 | *itself* | `string` | | 变量的静态值 |
 | `sh` | `string` | | shell 命令，输出 (`STDOUT`) 值传递给变量 |
 
-:::info
-
-静态和动态变量语法不同，如下：
-
-```yaml
-vars:
-  STATIC: static
-  DYNAMIC:
-    sh: echo "dynamic"
-```
-
-:::
+> NOTE:
+> 静态和动态变量语法不同，如下：
+> 
+> ```yaml
+> vars:
+>   STATIC: static
+>   DYNAMIC:
+>     sh: echo "dynamic"
+> ```
+> 
 
 ### Precondition
 
@@ -221,14 +207,12 @@ vars:
 | `sh` | `string` | | 要执行的命令，如果返回非 0 状态码，task 停止执行并返回错误 |
 | `msg` | `string` | | 可选提示，条件不满足时显示 |
 
-:::tip
-
-不设置错误消息时，可以直接设置 precondition 值，省略 `sh`:
-
-```yaml
-tasks:
-  foo:
-    precondition: test -f Taskfile.yml
-```
-
-:::
+> NOTE:
+> 不设置错误消息时，可以直接设置 precondition 值，省略 `sh`:
+> 
+> ```yaml
+> tasks:
+>   foo:
+>     precondition: test -f Taskfile.yml
+> ```
+> 

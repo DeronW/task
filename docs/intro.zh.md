@@ -12,7 +12,9 @@ Task 是一个运行/构建 task 的工具，一款更好用的工具，相对�
 一旦 [安装](installation.zh.md) 完成，
 只需要创建一个名为 `Taskfile.yml` 的 [YAML][yaml] 文件，描述你需要执行的 task:
 
-```yaml title="Taskfile.yml"
+Taskfile.yml
+
+```yaml
 version: "3"
 
 tasks:
@@ -29,12 +31,12 @@ tasks:
 ## 特性
 
 - [易于安装](installation.zh.md)：只需要下载二进制文件，添加到 `$PATH` 路径即可！
-  也可以通过 [Homebrew][homebrew][Snapcraft][snapcraft], 或者 [Scoop][scoop] 安装。
+  也可以通过 [Homebrew][homebrew]，[Snapcraft][snapcraft], 或者 [Scoop][scoop] 安装。
 - 可以在 CI 中使用：只要添加 [这个命令](installation.zh.md#安装脚本) 到 CI 安装脚本中，
   然后就可以把 Task 当做 CI 的一个功能来使用了。
 - 真正跨平台：大部分构建工具只适配了 Linux 或 macOS，
   而 Task 还支持 Windows，多谢 [这个 Go 解释器](sh)。
-- 代码版本友好：方便的 [跳过任务执行](/usage.zh.md#节省非必要工作) 
+- 代码版本友好：方便的 [跳过任务执行](/usage.zh.md#节省非必要工作)
   如果与上次构建相比源文件没有变化的话（基于文件的时间戳或文件内容）
 
 [make]: https://www.gnu.org/software/make/
